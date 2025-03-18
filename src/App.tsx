@@ -1,5 +1,7 @@
+import HouseListing from "./components/HouseListing";
+
 function App() {
-  return <p>Rent a house</p>;
+  return <HouseListing />;
 }
 
 export default App;
