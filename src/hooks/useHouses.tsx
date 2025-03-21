@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../services/apiClient";
+import { CanceledError } from "axios";
 
 interface House {
   _id: string;
@@ -14,19 +15,28 @@ interface House {
   gas_supply: boolean;
   electricity_supply: boolean;
 }
+
 const useHouses = () => {
   const [houses, setHouses] = useState<House[]>([]);
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     setLoading(true);
 
     axiosInstance
-      .get("/house")
-      .then(({ data }) => setHouses(data.houses))
-      .catch((err) => setError(err.message))
+      .get<House[]>("/house", { signal: controller.signal })
+      .then(({ data }) => setHouses(data))
+      .catch((err) => {
+        if (!(err instanceof CanceledError)) {
+          setError(err.message);
+        }
+      })
       .finally(() => setLoading(false));
+
+    return () => controller.abort();
   }, []);
 
   return { houses, error, isLoading };
