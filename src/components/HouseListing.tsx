@@ -3,6 +3,8 @@ import Grid from "@mui/material/Grid2";
 import useHouses from "../hooks/useHouses";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 
 const HouseListing = () => {
   const { houses, error, isLoading } = useHouses();
@@ -20,7 +22,16 @@ const HouseListing = () => {
       <Grid container spacing={2}>
         {houses.map((house, index) => (
           <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-            {house.highlights}
+            <Card>
+              <CardContent>
+                <Typography>PKR {house.rent}</Typography>
+                <Box display={"flex"}>
+                  <Typography>{house.area} sq. feet&nbsp;</Typography>
+                  <Typography>{house.type}</Typography>
+                </Box>
+                <Typography>{house.highlights}</Typography>
+              </CardContent>
+            </Card>
           </Grid>
         ))}
       </Grid>
