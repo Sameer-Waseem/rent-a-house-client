@@ -7,6 +7,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import HomeIcon from "../assets/home.png";
 import Facilities from "./Facilities";
+import AddHouse from "./AddHouse";
 
 const HouseListing = () => {
   const { houses, error, isLoading } = useHouses();
@@ -24,7 +25,7 @@ const HouseListing = () => {
       <Grid container spacing={2}>
         {houses.map((house, index) => (
           <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-            <Card>
+            <Card sx={{ height: "100%", alignContent: "center" }}>
               <CardContent sx={{ display: "flex", alignItems: "center" }}>
                 <img src={HomeIcon} width={"150px"} />
 
@@ -40,6 +41,8 @@ const HouseListing = () => {
             </Card>
           </Grid>
         ))}
+
+        <AddHouse />
       </Grid>
     </Box>
   );
