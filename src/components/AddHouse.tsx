@@ -16,10 +16,18 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { ErrorMessage, Field, FieldProps, Form, Formik } from "formik";
+import {
+  ErrorMessage,
+  Field,
+  FieldProps,
+  Form,
+  Formik,
+  FormikHelpers,
+} from "formik";
 import { ReactNode, useState } from "react";
 import * as Yup from "yup";
 import AddIcon from "../assets/add.png";
+import axiosInstance from "../services/apiClient";
 
 interface FormValues {
   type: string;
@@ -29,9 +37,9 @@ interface FormValues {
   description: string;
   rooms: number | null;
   bathrooms: number | null;
-  water_supply: string;
-  gas_supply: string;
-  electricity_supply: string;
+  water_supply: boolean;
+  gas_supply: boolean;
+  electricity_supply: boolean;
 }
 
 interface FormFieldProps {
@@ -59,17 +67,28 @@ const AddHouse = () => {
     description: "",
     rooms: 0,
     bathrooms: 0,
-    water_supply: "yes",
-    gas_supply: "yes",
-    electricity_supply: "yes",
+    water_supply: true,
+    gas_supply: true,
+    electricity_supply: true,
   };
 
   const handleClickOpen = () => setOpen(true);
 
   const handleClose = () => setOpen(false);
 
-  const handleSubmit = (values: FormValues) => {
-    console.log("values:", values);
+  const handleSubmit = async (
+    values: FormValues,
+    { setSubmitting }: FormikHelpers<FormValues>
+  ) => {
+    setSubmitting(true);
+
+    try {
+      await axiosInstance.post<FormValues>("/house", values);
+    } catch (error) {
+      console.log("error:", error);
+    }
+
+    setSubmitting(false);
     handleClose();
   };
 
@@ -111,7 +130,7 @@ const AddHouse = () => {
           validationSchema={validation}
           onSubmit={handleSubmit}
         >
-          {() => (
+          {({ isSubmitting }) => (
             <Form>
               <DialogContent>
                 <DialogContentText id={"add-house-dialog-description"}>
@@ -190,12 +209,12 @@ const AddHouse = () => {
                 <Box display={"flex"} justifyContent={"space-between"}>
                   <FormRadio name={"water_supply"} label={"Water Supply"}>
                     <FormControlLabel
-                      value={"yes"}
+                      value={true}
                       control={<Radio />}
                       label={"Yes"}
                     />
                     <FormControlLabel
-                      value={"no"}
+                      value={false}
                       control={<Radio />}
                       label={"no"}
                     />
@@ -203,14 +222,14 @@ const AddHouse = () => {
 
                   <FormRadio name={"gas_supply"} label={"Gas Supply"}>
                     <FormControlLabel
-                      value={"yes"}
+                      value={true}
                       control={<Radio />}
                       label={"Yes"}
                     />
                     <FormControlLabel
-                      value={"no"}
+                      value={false}
                       control={<Radio />}
-                      label={"no"}
+                      label={"No"}
                     />
                   </FormRadio>
 
@@ -219,14 +238,14 @@ const AddHouse = () => {
                     label={"Electricity Supply"}
                   >
                     <FormControlLabel
-                      value={"yes"}
+                      value={true}
                       control={<Radio />}
                       label={"Yes"}
                     />
                     <FormControlLabel
-                      value={"no"}
+                      value={false}
                       control={<Radio />}
-                      label={"no"}
+                      label={"No"}
                     />
                   </FormRadio>
                 </Box>
@@ -240,7 +259,12 @@ const AddHouse = () => {
                 >
                   Close
                 </Button>
-                <Button type={"submit"} variant={"contained"} color={"primary"}>
+                <Button
+                  type={"submit"}
+                  variant={"contained"}
+                  color={"primary"}
+                  loading={isSubmitting}
+                >
                   Add
                 </Button>
               </DialogActions>
