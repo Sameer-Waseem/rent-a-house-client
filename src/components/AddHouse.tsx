@@ -56,7 +56,11 @@ interface FormRadioProps {
   children: ReactNode;
 }
 
-const AddHouse = () => {
+interface Props {
+  onSetHouseAdded: (val: boolean) => void;
+}
+
+const AddHouse = ({ onSetHouseAdded }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const initialValues: FormValues = {
@@ -83,7 +87,8 @@ const AddHouse = () => {
     setSubmitting(true);
 
     try {
-      await axiosInstance.post<FormValues>("/house", values);
+      await axiosInstance.post<FormValues>("/house-detail", values);
+      onSetHouseAdded(true);
     } catch (error) {
       console.log("error:", error);
     }
@@ -327,7 +332,7 @@ const FormRadio = ({ name, label, children }: FormRadioProps) => {
 const validation = Yup.object().shape({
   type: Yup.string().trim().default("appartement").required(),
   area: Yup.number().min(1).max(99999).required("Area is required."),
-  rent: Yup.number().min(1).max(99999).required("Rent is required."),
+  rent: Yup.number().min(1).max(999999).required("Rent is required."),
   highlights: Yup.string()
     .trim()
     .min(3)

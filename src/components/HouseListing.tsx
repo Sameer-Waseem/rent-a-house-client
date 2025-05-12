@@ -1,18 +1,20 @@
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid2";
-import useHouses from "../hooks/useHouses";
-import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import CircularProgress from "@mui/material/CircularProgress";
+import Grid from "@mui/material/Grid2";
+import Typography from "@mui/material/Typography";
 import HomeIcon from "../assets/home.png";
-import Facilities from "./Facilities";
+import useHouses from "../hooks/useHouses";
 import AddHouse from "./AddHouse";
+import Facilities from "./Facilities";
+import { useState } from "react";
 
 const HouseListing = () => {
-  const { houses, error, isLoading } = useHouses();
+  const [isHouseAdded, setHouseAdded] = useState<boolean>(false);
+  const { houses, error, isLoading } = useHouses(isHouseAdded);
 
-  if (isLoading || !houses.length) {
+  if (isLoading && !houses.length) {
     return <CircularProgress />;
   }
 
@@ -42,7 +44,7 @@ const HouseListing = () => {
           </Grid>
         ))}
 
-        <AddHouse />
+        <AddHouse onSetHouseAdded={setHouseAdded} />
       </Grid>
     </Box>
   );
