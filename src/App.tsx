@@ -1,4 +1,4 @@
-import HouseListing from "./components/HouseListing";
+import HouseListing from "./components/House/HouseListing";
 
 function App() {
   return <HouseListing />;

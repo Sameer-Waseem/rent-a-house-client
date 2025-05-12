@@ -26,8 +26,8 @@ import {
 } from "formik";
 import { ReactNode, useState } from "react";
 import * as Yup from "yup";
-import AddIcon from "../assets/add.png";
-import axiosInstance from "../services/apiClient";
+import AddIcon from "../../assets/add.png";
+import axiosInstance from "../../services/apiClient";
 
 interface FormValues {
   type: string;
