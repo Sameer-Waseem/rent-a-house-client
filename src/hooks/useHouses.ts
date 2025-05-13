@@ -2,10 +2,10 @@ import { CanceledError } from "axios";
 import { useEffect, useState } from "react";
 import axiosInstance from "../services/apiClient";
 
-interface House {
+export interface House {
   _id: string;
   area: number;
-  type: "Appartement" | "Plot";
+  type: "Apartement" | "Plot";
   rent: number;
   highlights: string;
   description: string;

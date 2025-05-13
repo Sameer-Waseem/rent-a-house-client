@@ -64,7 +64,7 @@ const AddHouse = ({ onSetHouseAdded }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const initialValues: FormValues = {
-    type: "appartement",
+    type: "apartement",
     area: 0,
     rent: 0,
     highlights: "",
@@ -144,9 +144,9 @@ const AddHouse = ({ onSetHouseAdded }: Props) => {
 
                 <FormRadio name={"type"} label={"Type"}>
                   <FormControlLabel
-                    value={"appartement"}
+                    value={"apartement"}
                     control={<Radio />}
-                    label={"Appartement"}
+                    label={"Apartement"}
                   />
                   <FormControlLabel
                     value={"plot"}
@@ -330,7 +330,7 @@ const FormRadio = ({ name, label, children }: FormRadioProps) => {
 };
 
 const validation = Yup.object().shape({
-  type: Yup.string().trim().default("appartement").required(),
+  type: Yup.string().trim().default("apartement").required(),
   area: Yup.number().min(1).max(99999).required("Area is required."),
   rent: Yup.number().min(1).max(999999).required("Rent is required."),
   highlights: Yup.string()
