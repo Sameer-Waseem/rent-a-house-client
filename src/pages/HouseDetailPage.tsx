@@ -4,11 +4,11 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import { Link, useParams } from "react-router-dom";
-import HomeIcon from "../../assets/home.png";
-import useHouse from "../../hooks/useHouse";
-import HouseFacilities from "./HouseFacilities";
+import HomeIcon from "../assets/home.png";
+import HouseFacilities from "../components/House/HouseFacilities";
+import useHouse from "../hooks/useHouse";
 
-const HouseDetails = () => {
+const HouseDetailPage = () => {
   const { id } = useParams();
   const { house, error, isLoading } = useHouse(id!);
 
@@ -74,4 +74,4 @@ const HouseDetails = () => {
   );
 };
 
-export default HouseDetails;
+export default HouseDetailPage;

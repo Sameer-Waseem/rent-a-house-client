@@ -5,13 +5,13 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
-import HomeIcon from "../../assets/home.png";
-import useHouses from "../../hooks/useHouses";
-import AddHouse from "./AddHouse";
-import HouseFacilities from "./HouseFacilities";
 import { Link } from "react-router-dom";
+import HomeIcon from "../assets/home.png";
+import AddHouse from "../components/House/AddHouse";
+import HouseFacilities from "../components/House/HouseFacilities";
+import useHouses from "../hooks/useHouses";
 
-const HouseListing = () => {
+const HouseListingPage = () => {
   const [isHouseAdded, setHouseAdded] = useState<boolean>(false);
   const { houses, error, isLoading } = useHouses(isHouseAdded);
 
@@ -28,10 +28,7 @@ const HouseListing = () => {
       <Grid container spacing={2}>
         {houses.map((house, index) => (
           <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-            <Link
-              to={`/house-detail/${house._id}`}
-              style={{ textDecoration: "none" }}
-            >
+            <Link to={`/house/${house._id}`} style={{ textDecoration: "none" }}>
               <Card sx={{ height: "100%", alignContent: "center" }}>
                 <CardContent sx={{ display: "flex", alignItems: "center" }}>
                   <img src={HomeIcon} width={"150px"} />
@@ -60,4 +57,4 @@ const HouseListing = () => {
   );
 };
 
-export default HouseListing;
+export default HouseListingPage;
