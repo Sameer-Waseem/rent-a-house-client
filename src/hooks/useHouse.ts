@@ -18,7 +18,7 @@ const useHouse = (id: string) => {
       .then(({ data }) => setHouse(data))
       .catch((err) => {
         if (!(err instanceof CanceledError)) {
-          setError(err);
+          setError(err?.response?.data?.message);
         }
       })
       .finally(() => setLoading(false));

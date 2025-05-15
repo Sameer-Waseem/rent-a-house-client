@@ -6,7 +6,7 @@ import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import HomeIcon from "../assets/home.png";
+import HomeIcon from "../assets/house-icon.png";
 import AddHouse from "../components/House/AddHouse";
 import HouseFacilities from "../components/House/HouseFacilities";
 import useHouses from "../hooks/useHouses";
@@ -24,7 +24,7 @@ const HouseListingPage = () => {
   }
 
   return (
-    <Box margin={"10px"}>
+    <Box>
       <Grid container spacing={2}>
         {houses.map((house, index) => (
           <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>

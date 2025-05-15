@@ -31,7 +31,7 @@ const useHouses = (isHouseAdded = false) => {
       .then(({ data }) => setHouses(data))
       .catch((err) => {
         if (!(err instanceof CanceledError)) {
-          setError(err.message);
+          setError(err?.response?.data?.message);
         }
       })
       .finally(() => setLoading(false));

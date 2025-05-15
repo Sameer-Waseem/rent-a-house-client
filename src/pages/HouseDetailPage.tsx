@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import { Link, useParams } from "react-router-dom";
-import HomeIcon from "../assets/home.png";
+import HomeIcon from "../assets/house-icon.png";
 import HouseFacilities from "../components/House/HouseFacilities";
 import useHouse from "../hooks/useHouse";
 
@@ -25,13 +25,14 @@ const HouseDetailPage = () => {
   }
 
   return (
-    <Box margin={"30px"}>
+    <Box>
       <Grid container>
         <Link to={"/"}>
           <Typography
             variant={"body1"}
             display={"flex"}
             color={"textSecondary"}
+            alignItems={"center"}
           >
             <ArrowBackIcon fontSize={"small"} />
             House Listing
