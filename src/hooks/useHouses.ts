@@ -16,7 +16,7 @@ export interface House {
   electricity_supply: boolean;
 }
 
-const useHouses = (isHouseAdded = false) => {
+const useHouses = (isHouseAdded: boolean, sortBy: string) => {
   const [houses, setHouses] = useState<House[]>([]);
   const [error, setError] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -27,7 +27,10 @@ const useHouses = (isHouseAdded = false) => {
     setLoading(true);
 
     axiosInstance
-      .get<House[]>("/house-detail", { signal: controller.signal })
+      .get<House[]>("/house-detail", {
+        params: { sort_by: sortBy },
+        signal: controller.signal,
+      })
       .then(({ data }) => setHouses(data))
       .catch((err) => {
         if (!(err instanceof CanceledError)) {
@@ -37,7 +40,7 @@ const useHouses = (isHouseAdded = false) => {
       .finally(() => setLoading(false));
 
     return () => controller.abort();
-  }, [isHouseAdded]);
+  }, [isHouseAdded, sortBy]);
 
   return { houses, error, isLoading };
 };

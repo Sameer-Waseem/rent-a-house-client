@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
-import RentAHouse from "../../public/rent-a-house.svg";
 
 const NavBar = () => {
   return (
@@ -12,7 +11,7 @@ const NavBar = () => {
         <Toolbar>
           <Link to={"/"} style={{ textDecoration: "none" }}>
             <Box display={"flex"} alignItems={"center"}>
-              <img src={RentAHouse} width={"30px"} />
+              <img src={"/rent-a-house.svg"} width={"30px"} />
               <Typography
                 variant={"subtitle2"}
                 marginLeft={"8px"}
