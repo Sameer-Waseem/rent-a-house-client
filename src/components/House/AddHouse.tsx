@@ -1,8 +1,5 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardActionArea from "@mui/material/CardActionArea";
-import CardContent from "@mui/material/CardContent";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -11,7 +8,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
-import Grid from "@mui/material/Grid2";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import TextField from "@mui/material/TextField";
@@ -26,7 +22,6 @@ import {
 } from "formik";
 import { ReactNode, useState } from "react";
 import * as Yup from "yup";
-import AddIcon from "../../assets/add.png";
 import axiosInstance from "../../services/apiClient";
 
 interface FormValues {
@@ -57,7 +52,7 @@ interface FormRadioProps {
 }
 
 interface Props {
-  onSetHouseAdded: (val: boolean) => void;
+  onSetHouseAdded: (v: boolean) => void;
 }
 
 const AddHouse = ({ onSetHouseAdded }: Props) => {
@@ -90,7 +85,7 @@ const AddHouse = ({ onSetHouseAdded }: Props) => {
       await axiosInstance.post<FormValues>("/house-detail", values);
       onSetHouseAdded(true);
     } catch (error) {
-      console.log("error:", error);
+      // console.log("error:", error);
     }
 
     setSubmitting(false);
@@ -99,22 +94,9 @@ const AddHouse = ({ onSetHouseAdded }: Props) => {
 
   return (
     <>
-      <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-        <Card
-          onClick={handleClickOpen}
-          sx={{ height: "100%", alignContent: "center" }}
-        >
-          <CardActionArea sx={{ height: "100%" }}>
-            <CardContent sx={{ display: "flex", alignItems: "center" }}>
-              <img src={AddIcon} width={"80px"} />
-
-              <Box marginLeft={"10px"}>
-                <Typography variant={"h6"}>Add a new house</Typography>
-              </Box>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      </Grid>
+      <Button onClick={handleClickOpen} color={"warning"} variant={"contained"}>
+        Add house
+      </Button>
 
       <Dialog
         open={open}
