@@ -1,5 +1,6 @@
 import { CanceledError } from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import HouseAddedContext from "../contexts/HouseAddedContext";
 import axiosInstance from "../services/apiClient";
 
 export interface House {
@@ -17,6 +18,8 @@ export interface House {
 }
 
 const useHouses = (isHouseAdded: boolean, sortBy: string) => {
+  const { setHouseAdded } = useContext(HouseAddedContext);
+
   const [houses, setHouses] = useState<House[]>([]);
   const [error, setError] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -37,7 +40,10 @@ const useHouses = (isHouseAdded: boolean, sortBy: string) => {
           setError(err?.response?.data?.message);
         }
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+        setHouseAdded(false);
+      });
 
     return () => controller.abort();
   }, [isHouseAdded, sortBy]);

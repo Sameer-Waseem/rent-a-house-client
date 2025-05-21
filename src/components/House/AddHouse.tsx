@@ -20,9 +20,10 @@ import {
   Formik,
   FormikHelpers,
 } from "formik";
-import { ReactNode, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import * as Yup from "yup";
+import HouseAddedContext from "../../contexts/HouseAddedContext";
 import useNotify from "../../hooks/useNotify";
 import axiosInstance from "../../services/apiClient";
 
@@ -39,26 +40,9 @@ interface FormValues {
   electricity_supply: boolean;
 }
 
-interface FormFieldProps {
-  name: string;
-  label: string;
-  type: "text" | "number";
-  margin: string;
-  padding: string;
-}
-
-interface FormRadioProps {
-  name: string;
-  label: string;
-  children: ReactNode;
-}
-
-interface Props {
-  onSetHouseAdded: (v: boolean) => void;
-}
-
-const AddHouse = ({ onSetHouseAdded }: Props) => {
+const AddHouse = () => {
   const { notifySuccess, notifyError } = useNotify();
+  const { setHouseAdded } = useContext(HouseAddedContext);
   const [open, setOpen] = useState<boolean>(false);
 
   const initialValues: FormValues = {
@@ -86,7 +70,7 @@ const AddHouse = ({ onSetHouseAdded }: Props) => {
 
     try {
       await axiosInstance.post<FormValues>("/house-detail", values);
-      onSetHouseAdded(true);
+      setHouseAdded(true);
       handleClose();
       notifySuccess("House added successfully.");
     } catch (error: any) {
@@ -269,6 +253,14 @@ const AddHouse = ({ onSetHouseAdded }: Props) => {
   );
 };
 
+interface FormFieldProps {
+  name: string;
+  label: string;
+  type: "text" | "number";
+  margin: string;
+  padding: string;
+}
+
 const FormField = ({ name, label, type, margin, padding }: FormFieldProps) => {
   return (
     <Box width={"100%"} display={"flex"} flexDirection={"column"}>
@@ -296,6 +288,12 @@ const FormField = ({ name, label, type, margin, padding }: FormFieldProps) => {
     </Box>
   );
 };
+
+interface FormRadioProps {
+  name: string;
+  label: string;
+  children: ReactNode;
+}
 
 const FormRadio = ({ name, label, children }: FormRadioProps) => {
   return (
