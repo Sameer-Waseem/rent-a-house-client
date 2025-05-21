@@ -5,18 +5,18 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import HomeIcon from "../assets/house-icon.png";
-import AddHouse from "../components/House/AddHouse";
 import HouseFacilities from "../components/House/HouseFacilities";
 import SortBy from "../components/SortBy";
+import HouseAddedContext from "../contexts/HouseAddedContext";
 import useHouses from "../hooks/useHouses";
 
 const HouseListingPage = () => {
-  const [isHouseAdded, setHouseAdded] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<string>("_id");
 
+  const { isHouseAdded } = useContext(HouseAddedContext);
   const { houses, error, isLoading } = useHouses(isHouseAdded, sortBy);
 
   if (isLoading && !houses.length) {
@@ -67,8 +67,6 @@ const HouseListingPage = () => {
             </Link>
           </Grid>
         ))}
-
-        <AddHouse onSetHouseAdded={setHouseAdded} />
       </Grid>
     </Box>
   );

@@ -5,7 +5,7 @@ import axiosInstance from "../services/apiClient";
 export interface House {
   _id: string;
   area: number;
-  type: "Apartement" | "Plot";
+  type: "Apartment" | "Plot";
   rent: number;
   highlights: string;
   description: string;

@@ -1,8 +1,5 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardActionArea from "@mui/material/CardActionArea";
-import CardContent from "@mui/material/CardContent";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -11,7 +8,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
-import Grid from "@mui/material/Grid2";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import TextField from "@mui/material/TextField";
@@ -25,8 +21,9 @@ import {
   FormikHelpers,
 } from "formik";
 import { ReactNode, useState } from "react";
+import { ToastContainer } from "react-toastify";
 import * as Yup from "yup";
-import AddIcon from "../../assets/add.png";
+import useNotify from "../../hooks/useNotify";
 import axiosInstance from "../../services/apiClient";
 
 interface FormValues {
@@ -57,14 +54,15 @@ interface FormRadioProps {
 }
 
 interface Props {
-  onSetHouseAdded: (val: boolean) => void;
+  onSetHouseAdded: (v: boolean) => void;
 }
 
 const AddHouse = ({ onSetHouseAdded }: Props) => {
+  const { notifySuccess, notifyError } = useNotify();
   const [open, setOpen] = useState<boolean>(false);
 
   const initialValues: FormValues = {
-    type: "apartement",
+    type: "apartment",
     area: 0,
     rent: 0,
     highlights: "",
@@ -89,32 +87,22 @@ const AddHouse = ({ onSetHouseAdded }: Props) => {
     try {
       await axiosInstance.post<FormValues>("/house-detail", values);
       onSetHouseAdded(true);
-    } catch (error) {
-      console.log("error:", error);
+      handleClose();
+      notifySuccess("House added successfully.");
+    } catch (error: any) {
+      notifyError(error?.response?.data?.error);
     }
 
     setSubmitting(false);
-    handleClose();
   };
 
   return (
     <>
-      <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-        <Card
-          onClick={handleClickOpen}
-          sx={{ height: "100%", alignContent: "center" }}
-        >
-          <CardActionArea sx={{ height: "100%" }}>
-            <CardContent sx={{ display: "flex", alignItems: "center" }}>
-              <img src={AddIcon} width={"80px"} />
+      <ToastContainer position={"bottom-right"} />
 
-              <Box marginLeft={"10px"}>
-                <Typography variant={"h6"}>Add a new house</Typography>
-              </Box>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      </Grid>
+      <Button onClick={handleClickOpen} color={"warning"} variant={"contained"}>
+        Add house
+      </Button>
 
       <Dialog
         open={open}
@@ -144,9 +132,9 @@ const AddHouse = ({ onSetHouseAdded }: Props) => {
 
                 <FormRadio name={"type"} label={"Type"}>
                   <FormControlLabel
-                    value={"apartement"}
+                    value={"apartment"}
                     control={<Radio />}
-                    label={"Apartement"}
+                    label={"Apartment"}
                   />
                   <FormControlLabel
                     value={"plot"}
@@ -330,7 +318,7 @@ const FormRadio = ({ name, label, children }: FormRadioProps) => {
 };
 
 const validation = Yup.object().shape({
-  type: Yup.string().trim().default("apartement").required(),
+  type: Yup.string().trim().default("apartment").required(),
   area: Yup.number().min(1).max(99999).required("Area is required."),
   rent: Yup.number().min(1).max(999999).required("Rent is required."),
   highlights: Yup.string()
