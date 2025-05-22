@@ -27,7 +27,7 @@ const HouseDetailPage = () => {
   return (
     <Box>
       <Grid container>
-        <Link to={"/"}>
+        <Link to={"/houses"}>
           <Typography
             variant={"body1"}
             display={"flex"}
