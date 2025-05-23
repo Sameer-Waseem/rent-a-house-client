@@ -2,20 +2,8 @@ import { CanceledError } from "axios";
 import { useContext, useEffect, useState } from "react";
 import HouseAddedContext from "../contexts/HouseAddedContext";
 import axiosInstance from "../services/apiClient";
-
-export interface House {
-  _id: string;
-  area: number;
-  type: "Apartment" | "Plot";
-  rent: number;
-  highlights: string;
-  description: string;
-  rooms: number;
-  bathrooms: number;
-  water_supply: boolean;
-  gas_supply: boolean;
-  electricity_supply: boolean;
-}
+import ApiResponse from "../types/apiResponse";
+import House from "../types/house";
 
 const useHouses = (isHouseAdded: boolean, sortBy: string) => {
   const { setHouseAdded } = useContext(HouseAddedContext);
@@ -30,11 +18,11 @@ const useHouses = (isHouseAdded: boolean, sortBy: string) => {
     setLoading(true);
 
     axiosInstance
-      .get<House[]>("/house-detail", {
+      .get<ApiResponse<House[]>>("/house", {
         params: { sort_by: sortBy },
         signal: controller.signal,
       })
-      .then(({ data }) => setHouses(data))
+      .then(({ data }) => setHouses(data.data))
       .catch((err) => {
         if (!(err instanceof CanceledError)) {
           setError(err?.response?.data?.message);

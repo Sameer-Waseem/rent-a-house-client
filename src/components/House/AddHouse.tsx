@@ -69,7 +69,7 @@ const AddHouse = () => {
     setSubmitting(true);
 
     try {
-      await axiosInstance.post<FormValues>("/house-detail", values);
+      await axiosInstance.post<FormValues>("/house", values);
       setHouseAdded(true);
       handleClose();
       notifySuccess("House added successfully.");

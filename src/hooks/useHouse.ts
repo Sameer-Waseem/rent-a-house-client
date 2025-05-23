@@ -1,7 +1,8 @@
 import { CanceledError } from "axios";
 import { useEffect, useState } from "react";
 import axiosInstance from "../services/apiClient";
-import { House } from "./useHouses";
+import ApiResponse from "../types/apiResponse";
+import House from "../types/house";
 
 const useHouse = (id: string) => {
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -14,8 +15,8 @@ const useHouse = (id: string) => {
     setLoading(true);
 
     axiosInstance
-      .get<House>(`house-detail/${id}`, { signal: controller.signal })
-      .then(({ data }) => setHouse(data))
+      .get<ApiResponse<House>>(`house/${id}`, { signal: controller.signal })
+      .then(({ data }) => setHouse(data.data))
       .catch((err) => {
         if (!(err instanceof CanceledError)) {
           setError(err?.response?.data?.message);
